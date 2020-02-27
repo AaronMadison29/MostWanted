@@ -40,7 +40,7 @@ function mainMenu(person, people){
       displayFamily(getSpouse(person, people), getParents(person, people)[0], getParents(person, people)[1]);
       break;
     case "descendants":
-      alert(displayDescendants(person, people));
+      displayPeople(displayDescendants(person, people));
       break;
     case "restart":
       app(people); // restart
@@ -241,37 +241,21 @@ function getParents(person, people){
 }
 
 function displayDescendants(person, people){
-  let descendants;
-  let grandchildren;
-  let counter = 0;
+  let descendants = [];
 
-    let children = people.filter(function(el) {
-      if (el.parents.some(x => x === person.id)) {
-        return el;
-      }
-    });
+  let children = people.filter(function (el) {
+    if (el.parents.some(x => x === person.id)) {
+      return el;
+    }});
 
-    if (counter > 0 && counter < 2){
-      for (var i = 0; i < children.length; i++){
-        var child = children[i];
-        grandchildren += displayDescendants(child, children);
-        //I think that's right
-        descendants[i] = children[i];
-        descendants += grandchildren[i];
-        //Seems pretty convoluted
-      }
-    }
 
-    if (counter < 1)
-    {
-      displayDescendants(child, children);
-    }
+    descendants = descendants.concat(children);
 
-    //Need to add each of the people returned as children and grandchildren as descendants, so I can a
-    if (counter > 0){
-      return descendants;
-    }
-    counter++;
+
+  for (person in children) {
+    descendants = descendants.concat(displayDescendants(children[person], people));
+  }
+  return descendants;
 }
 
 // function that prompts and validates user input
