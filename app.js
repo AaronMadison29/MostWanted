@@ -40,7 +40,7 @@ function mainMenu(person, people){
       displayFamily(getSpouse(person, people), getParents(person, people)[0], getParents(person, people)[1]);
       break;
     case "descendants":
-      alert(displayDescendants(person));
+      displayPeople(displayDescendants(person, people));
       break;
     case "restart":
       app(people); // restart
@@ -240,34 +240,23 @@ function getParents(person, people){
   //Is this in the right spot? Want to make sure it's going to return only after going through all
 }
 
-function displayDescendants(person){
-  let descendants;
-  let grandchildren;
-  let counter = 0;
+function displayDescendants(person, people){
+  let descendants = [];
 
-    let children = people.filter(function(el) {
-      if (el.parents.some(x => x === person.id)) {
-        return el;
-    }
+  let children = people.filter(function (el) {
+    if (el.parents.some(x => x === person.id)) {
+      return el;
+    }});
 
-    counter++;
 
-    if (counter > 0 && counter < 2){
-      for (var i = 0; i < children.length; i++){
-        let child = children[i];
-        grandchildren += displayDescendants(child);
-        descendants += children[i];
-        descendants += grandchildren[i];
-        //Seems pretty convoluted
-      }
-    }
+    descendants = descendants.concat(children);
 
-    //Need to add each of the people returned as children and grandchildren as descendants, so I can a
-    if (counter > 0){
-      return descendants;
-    }
-  })
-};
+
+  for (person in children) {
+    descendants = descendants.concat(displayDescendants(children[person], people));
+  }
+  return descendants;
+}
 
 // function that prompts and validates user input
 function promptFor(question, callback){
