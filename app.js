@@ -57,7 +57,7 @@ function searchByName(people){
   var lastName = promptFor("What is the person's last name?", chars);
 
   let filteredPeople = people.filter(function(el) {
-    if(el.firstName === firstName && el.lastName === lastName) {
+    if(el.firstName == firstName && el.lastName == lastName) {
       return el;
     }
   });
@@ -230,13 +230,13 @@ function getParents(person, people){
   let parents = people.filter(function(el) {
     //map that returns all in array
     //var parentMultiple;
-      if (person.parents.some(x => x === el.id)) {
+      if (parentsOf.some(x => x === el.id)) {
         return el.firstName + " " + el.lastName + ", ";
         //Not sure if I want that comma there
     }
     //return parentMultiple;
   })
-  return parents;
+  return parentsOfPerson;
   //Is this in the right spot? Want to make sure it's going to return only after going through all
 }
 
