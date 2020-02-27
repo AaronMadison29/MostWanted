@@ -40,8 +40,7 @@ function mainMenu(person, people){
       displayFamily(person);
       break;
     case "descendants":
-      displayDescendants(person);
-      //Need to use recursion for this function
+      alert(displayDescendants(person));
       break;
     case "restart":
       app(people); // restart
@@ -91,7 +90,7 @@ function promptForOneCriterion()
 
 function searchByOneCriterion(people, criterion)
 {
-  let matchingPeople = people.filter(function(){
+  let matchingPeople = people.filter(function(el){
     if(el[criterion] === promptFor("What is the person's " + criterion, chars)) {
       return el;
     }
@@ -153,32 +152,33 @@ function getParents(person){
   //Is this in the right spot? Want to make sure it's going to return only after going through all
 }
 
-displayDescendants(person){ //Need to pass in people? If I want to call this recursively,
-  //I need to have it take an array and grab the right person or people?
-  //Or call functions recursively inside the function?
+function displayDescendants(person){
   let descendants;
+  let grandchildren;
+  let counter = 0;
 
     let children = people.filter(function(el) {
       if (el.parents.some(x => x === person.id)) {
         return el;
     }
-    //This should be right now
-    //Need to add each of the children to the descendants
 
+    counter++;
 
-
-    let grandchildren;
-    for (var i = 0; i < children.length; i++){
-      child = children[i];
-      grandchildren += displayDescendants(child);
-      
+    if (counter > 0 && counter < 2){
+      for (var i = 0; i < children.length; i++){
+        let child = children[i];
+        grandchildren += displayDescendants(child);
+        descendants += children[i];
+        descendants += grandchildren[i];
+        //Seems pretty convoluted
+      }
     }
 
-    //Foreach, passing in each child to displayDescendants to get the grandchildren?
-
-    return children;
+    //Need to add each of the people returned as children and grandchildren as descendants, so I can a
+    if (counter > 0){
+      return descendants;
+    }
   })
-  alert(descendants);
 };
 
 // function that prompts and validates user input
