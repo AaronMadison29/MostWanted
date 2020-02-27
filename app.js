@@ -37,10 +37,10 @@ function mainMenu(person, people){
       displayPerson(person);
       break;
     case "family":
-      displayFamily(person);
+      displayFamily(person, people);
       break;
     case "descendants":
-      alert(displayDescendants(person));
+      alert(displayDescendants(person, people));
       break;
     case "restart":
       app(people); // restart
@@ -57,12 +57,12 @@ function searchByName(people){
   var lastName = promptFor("What is the person's last name?", chars);
 
   let filteredPeople = people.filter(function(el) {
-    if(el.firstName === firstName && el.lastName === lastName) {
+    if(el.firstName == firstName && el.lastName == lastName) {
       return el;
     }
   });
 
-  return filteredPeople;
+  return filteredPeople[0];
 
 }
 
@@ -150,10 +150,11 @@ function promptForManyCriteria()
   return response;
 }
 
-function searchByOneCriterion(people, criteria)
+function searchByOneCriterion(people, criterion)
 {
+  let criterionChoice = promptFor("What is the person's " + criterion, chars);
   let matchingPeople = people.filter(function(el){
-    if(el[criterion] === promptFor("What is the person's " + criterion, chars)) {
+    if(el[criterion] == criterionChoice) {
       return el;
     }
   });
@@ -195,40 +196,41 @@ function displayPerson(person){
   alert(personInfo);
 }
 
-function displayFamily(person){
-  spouse = getSpouse(person);
-  parents = getParents(person);
+function displayFamily(person, people){
+  var spouse = getSpouse(person, people);
+  var parents = getParents(person, people);
   //Check to make sure this is going to work
-  var personsFamily = "Spouse: " + spouse + "\n";
-  personsFamily += "Parents: " + parents + "\n";
-
+  var personsFamily = "Spouse: " + spouse.firstName + " " + spouse.lastName + "\n";
   alert(personsFamily);
+  displayPeople(parents);
 }
 
-function getSpouse(person){
+function getSpouse(person, people){
   let spouse = people.filter(function(el) {
-    if(el.id === person.spouse) {
+    if(el.id === person.currentSpouse) {
       return el;
       //I think that's right now
     }
   })
+  return spouse[0];
 }
 
-function getParents(person){
-  let parents = people.filter(function(el) {
+function getParents(person, people){
+  var parentsOf = person["parents"];
+  var parentsOfPerson = people.filter(function(el) {
     //map that returns all in array
     //var parentMultiple;
-      if (person.parents.some(x => x === el.id)) {
+      if (parentsOf.some(x => x === el.id)) {
         return el.firstName + " " + el.lastName + ", ";
         //Not sure if I want that comma there
     }
     //return parentMultiple;
   })
-  return parents;
+  return parentsOfPerson;
   //Is this in the right spot? Want to make sure it's going to return only after going through all
 }
 
-function displayDescendants(person){
+function displayDescendants(person, people){
   let descendants;
   let grandchildren;
   let counter = 0;
@@ -243,7 +245,8 @@ function displayDescendants(person){
     if (counter > 0 && counter < 2){
       for (var i = 0; i < children.length; i++){
         let child = children[i];
-        grandchildren += displayDescendants(child);
+        grandchildren += displayDescendants(child, children);
+        //I think that's right
         descendants += children[i];
         descendants += grandchildren[i];
         //Seems pretty convoluted
