@@ -37,7 +37,7 @@ function mainMenu(person, people){
       displayPerson(person);
       break;
     case "family":
-      displayFamily(person, people);
+      displayFamily(getSpouse(person, people), getParents(person, people)[0], getParents(person, people)[1]);
       break;
     case "descendants":
       alert(displayDescendants(person, people));
@@ -74,7 +74,7 @@ function promptForCriterionChoice(people)
       displayPeople(searchByOneCriterion(people, promptForOneCriterion()));
       break;
     case 'many':
-      displayPeople(searchByManyCriteria(people, promptForOneCriterion()));
+      displayPeople(searchByManyCriteria(people, promptForManyCriteria()));
       break;
     default:
       app(people); // restart app
@@ -118,36 +118,43 @@ function promptForOneCriterion()
 
 function promptForManyCriteria()
 {
-  var response = promptFor("Which criterion would you like to search by? You can enter: 'First Name', 'Last Name', 'Date of Birth', 'Height', 'Weight', 'Eye Color', or 'Occupation'", singleCriterion);
-  switch(response)
-  {
-    case "First Name":
-      response =  "firstName";
-      break;
-    case "Last Name":
-      response =  "lastName";
-      break;
-    case "Date of Birth":
-      response =  "dob";
-      break;
-    case "Height":
-      response =  "height";
-      break;
-    case "Weight":
-      response =  "weight";
-      break;
-    case "Eye Color":
-      response =  "eyeColor";
-      break;
-    case "Occupation":
-      response =  "occupation";
-      break;
-    default:
-      alert("Invalid input. Please try again!");
-      app(people); // restart app
-      break;
+  let responses = [];
+  var response;
+  var run = true;
+  while (run) {
+    response = promptFor("Which criterion would you like to search by? You can enter: 'First Name', 'Last Name', 'Date of Birth', 'Height', 'Weight', 'Eye Color', or 'Occupation' or 'STOP' to stop", singleCriterion);
+    switch (response) {
+      case "First Name":
+        responses.push("firstName");
+        break;
+      case "Last Name":
+        responses.push("lastName");
+        break;
+      case "Date of Birth":
+        responses.push("dob");
+        break;
+      case "Height":
+        responses.push("height");
+        break;
+      case "Weight":
+        responses.push("weight");
+        break;
+      case "Eye Color":
+        responses.push("eyeColor");
+        break;
+      case "Occupation":
+        responses.push("occupation");
+        break;
+      case "STOP":
+        run = false;
+        break;
+      default:
+        alert("Invalid input. Please try again!");
+        app(people); // restart app
+        break;
+    }
   }
-  return response;
+  return responses;
 }
 
 function searchByOneCriterion(people, criterion)
@@ -163,14 +170,10 @@ function searchByOneCriterion(people, criterion)
 
 function searchByManyCriteria(people, criterion)
 {
-  var matchingPeople;
+  var matchingPeople = people;
   for(criteria in criterion)
   {
-    matchingPeople.add(people.filter(function(el){
-      if(el[criterion] == criterionValue) {
-        return el;
-      }
-    }));
+    matchingPeople = searchByOneCriterion(matchingPeople, criterion[criteria]);
   }
   return matchingPeople;
 }
@@ -196,13 +199,21 @@ function displayPerson(person){
   alert(personInfo);
 }
 
-function displayFamily(person, people){
-  var spouse = getSpouse(person, people);
-  var parents = getParents(person, people);
-  //Check to make sure this is going to work
-  var personsFamily = "Spouse: " + spouse.firstName + " " + spouse.lastName + "\n";
-  alert(personsFamily);
-  displayPeople(parents);
+function displayFamily(spouse=null, parent1=null, parent2=null){
+  var outputString;
+  if(spouse != null)
+  {
+    outputString = "Spouse: " + spouse.firstName + " " + spouse.lastName + "\n";
+  }
+  if(parent1 != null)
+  {
+    outputString += "Parent 1: " + parent1.firstName + " " + parent1.lastName + "\n";
+  }
+  if(parent2 != null)
+  {
+    outputString += "Parent 2: " + parent2.firstName + " " + parent2.lastName;
+  }
+  alert(outputString);
 }
 
 function getSpouse(person, people){
@@ -211,13 +222,12 @@ function getSpouse(person, people){
       return el;
       //I think that's right now
     }
-  })
+  });
   return spouse[0];
 }
 
 function getParents(person, people){
-  var parentsOf = person["parents"];
-  var parentsOfPerson = people.filter(function(el) {
+  let parents = people.filter(function(el) {
     //map that returns all in array
     //var parentMultiple;
       if (parentsOf.some(x => x === el.id)) {
@@ -277,7 +287,7 @@ function oneMany(input){
   return input.toLowerCase() == "one" || input.toLowerCase() == "many";
 }
 function singleCriterion(input){
-  var inputs = ["First Name", "Last Name", "Date of Birth", "Height", "Weight", "Eye Color", "Occupation"]
+  var inputs = ["First Name", "Last Name", "Date of Birth", "Height", "Weight", "Eye Color", "Occupation", "STOP"]
   return inputs.some(x => x == input);
 }
 
