@@ -34,7 +34,8 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-      // TODO: get person's info
+      displayPerson(person);
+      //Seem too easy
       break;
     case "family":
       // TODO: get person's family
@@ -78,6 +79,14 @@ function displayPerson(person){
   // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
+  personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "Date of Birth: " + person.dob + "\n";
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Eye Color: " + person.eyecolor + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
+  personInfo += "Parents: " + person.parents + "\n";
+  personInfo += "Gender: " + person.gender + "\n";
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
