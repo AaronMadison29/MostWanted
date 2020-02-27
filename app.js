@@ -11,7 +11,7 @@ function app(people){
       mainMenu(searchByName(people), people);
       break;
     case 'no':
-      
+      promptForCriterionChoice(people);
       break;
     default:
       alert("Invalid input. Please try again!");
@@ -79,7 +79,7 @@ function promptForCriterionChoice(people)
       displayPeople(searchByOneCriterion(people, promptForOneCriterion()));
       break;
     case 'many':
-      
+      displayPeople(searchByManyCriteria(people, promptForOneCriterion()));
       break;
     default:
       app(people); // restart app
@@ -89,17 +89,94 @@ function promptForCriterionChoice(people)
 
 function promptForOneCriterion()
 {
-  return promptFor("Which criterion would you like to search by? You can enter: 'First Name', 'Last Name', 'Date of Birth', 'Height', 'Weight', 'Eye Color', or 'Occupation'", singleCriterion);
+  var response = promptFor("Which criterion would you like to search by? You can enter: 'First Name', 'Last Name', 'Date of Birth', 'Height', 'Weight', 'Eye Color', or 'Occupation'", singleCriterion);
+  switch(response)
+  {
+    case "First Name":
+      response =  "firstName";
+      break;
+    case "Last Name":
+      response =  "lastName";
+      break;
+    case "Date of Birth":
+      response =  "dob";
+      break;
+    case "Height":
+      response =  "height";
+      break;
+    case "Weight":
+      response =  "weight";
+      break;
+    case "Eye Color":
+      response =  "eyeColor";
+      break;
+    case "Occupation":
+      response =  "occupation";
+      break;
+    default:
+      alert("Invalid input. Please try again!");
+      app(people); // restart app
+      break;
+  }
+  return response;
 }
 
-
-function searchByOneCriterion(people, criterion)
+function promptForManyCriteria()
 {
-  let matchingPeople = people.filter(function(){
-    if(el[criterion] === promptFor("What is the person's " + criterion, chars)) {
+  var response = promptFor("Which criterion would you like to search by? You can enter: 'First Name', 'Last Name', 'Date of Birth', 'Height', 'Weight', 'Eye Color', or 'Occupation'", singleCriterion);
+  switch(response)
+  {
+    case "First Name":
+      response =  "firstName";
+      break;
+    case "Last Name":
+      response =  "lastName";
+      break;
+    case "Date of Birth":
+      response =  "dob";
+      break;
+    case "Height":
+      response =  "height";
+      break;
+    case "Weight":
+      response =  "weight";
+      break;
+    case "Eye Color":
+      response =  "eyeColor";
+      break;
+    case "Occupation":
+      response =  "occupation";
+      break;
+    default:
+      alert("Invalid input. Please try again!");
+      app(people); // restart app
+      break;
+  }
+  return response;
+}
+
+function searchByOneCriterion(people, criteria)
+{
+  var criterionValue = promptFor("What is the person's " + criteria, chars);
+  var matchingPeople = people.filter(function(el){
+    if(el[criterion] == criterionValue) {
       return el;
     }
-  }).join("\n");
+  });
+  return matchingPeople;
+}
+
+function searchByManyCriteria(people, criterion)
+{
+  var matchingPeople;
+  for(criteria in criterion)
+  {
+    matchingPeople.add(people.filter(function(el){
+      if(el[criterion] == criterionValue) {
+        return el;
+      }
+    }));
+  }
   return matchingPeople;
 }
 
@@ -175,27 +252,8 @@ function oneMany(input){
   return input.toLowerCase() == "one" || input.toLowerCase() == "many";
 }
 function singleCriterion(input){
-  switch(input)
-  {
-    case "First Name":
-      return "firstName";
-    case "Last Name":
-      return "lastName";
-    case "Date of Birth":
-      return "dob";
-    case "Height":
-      return "height";
-    case "Weight":
-      return "weight";
-    case "Eye Color":
-      return "eyeColor";
-    case "Occupation":
-      return "occupation";
-    default:
-      alert("Invalid input. Please try again!");
-      app(people); // restart app
-      break;
-  }
+  var inputs = ["First Name", "Last Name", "Date of Birth", "Height", "Weight", "Eye Color", "Occupation"]
+  return inputs.some(x => x == input);
 }
 
 function chars(input)
