@@ -34,7 +34,12 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
+<<<<<<< HEAD
       // TODO: get person's info
+=======
+      displayPerson(person);
+      //Seem too easy
+>>>>>>> aff0d472dd4536435efef18a314f9bb073e2d4e1
       break;
     case "family":
       // TODO: get person's family
@@ -78,7 +83,6 @@ function promptForCriterionChoice(people)
       
       break;
     default:
-      alert("Invalid input. Please try again!");
       app(people); // restart app
     break;
   }
