@@ -35,13 +35,14 @@ function mainMenu(person, people){
   switch(displayOption){
     case "info":
       displayPerson(person);
-      //Seem too easy
+      //Seems too easy?
       break;
     case "family":
-      // TODO: get person's family
+      displayFamily(person);
       break;
     case "descendants":
       // TODO: get person's descendants
+      //Need to use recursion for this function
       break;
     case "restart":
       app(people); // restart
@@ -85,10 +86,40 @@ function displayPerson(person){
   personInfo += "Weight: " + person.weight + "\n";
   personInfo += "Eye Color: " + person.eyecolor + "\n";
   personInfo += "Occupation: " + person.occupation + "\n";
-  personInfo += "Parents: " + person.parents + "\n";
-  personInfo += "Gender: " + person.gender + "\n";
-  // TODO: finish getting the rest of the information to display
   alert(personInfo);
+}
+
+function displayFamily(person){
+  spouse = getSpouse(person);
+  parents = getParents(person);
+  //Check to make sure this is going to work
+  var personsFamily = "Spouse: " + spouse + "\n";
+  personsFamily += "Parents: " + parents + "\n";
+
+  return personsFamily;
+}
+
+function getSpouse(person){
+  let spouse = people.filter(function(el) {
+    if(el.id === person.spouse) {
+      return el;
+      //I think that's right now
+    }
+  })
+}
+
+function getParents(person){
+  let parents = people.filter(function(el) {
+    //map that returns all in array
+    //var parentMultiple;
+      if (person.parents.some(x => x === el.id)) {
+        return el;
+        //Need to possibly return multiple parents
+    }
+    //return parentMultiple;
+  })
+  return parents;
+  //Is this in the right spot? Want to make sure it's going to return only after going through all
 }
 
 // function that prompts and validates user input
