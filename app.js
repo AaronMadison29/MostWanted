@@ -11,7 +11,7 @@ function app(people){
       mainMenu(searchByName(people), people);
       break;
     case 'no':
-      // TODO: search by traits
+      
       break;
     default:
       alert("Invalid input. Please try again!");
@@ -63,7 +63,37 @@ function searchByName(people){
   });
 
   // TODO: What to do with filteredPeople?
+  return filteredPeople;
 
+}
+
+function promptForCriterionChoice(people)
+{
+  var searchType = promptFor("Do you want to search based on one or many criterion? Enter 'one' or 'many'", oneMany).toLowerCase();
+  switch(searchType){
+    case 'one':
+      
+      break;
+    case 'many':
+      
+      break;
+    default:
+      alert("Invalid input. Please try again!");
+      app(people); // restart app
+    break;
+  }
+}
+
+function promptForOneCriterion()
+{
+  return promptFor("Which criterion would you like to search by? You can enter: 'First Name', 'Last Name', 'Date of Birth', 'Height', 'Weight', 'Eye Color', or 'Occupation'", singleCriterion).toLowerCase();
+}
+
+function peopleMatchingCriterion(people, criterion)
+{
+  alert(people.map(function(person){
+    
+  }).join("\n"));
 }
 
 // alerts a list of people
@@ -95,7 +125,15 @@ function yesNo(input){
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
 
-// helper function to pass in as default promptFor validation
-function chars(input){
-  return true; // default validation only
+function oneMany(input){
+  return input.toLowerCase() == "one" || input.toLowerCase() == "many";
+}
+function singleCriterion(input){
+  switch(input)
+  {
+    case "First Name":
+      return "firstName";
+    case "Last Name":
+      
+  }
 }
