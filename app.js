@@ -248,27 +248,31 @@ function displayDescendants(person, people){
     let children = people.filter(function(el) {
       if (el.parents.some(x => x === person.id)) {
         return el;
-    }
-
-    counter++;
+      }
+    });
 
     if (counter > 0 && counter < 2){
       for (var i = 0; i < children.length; i++){
-        let child = children[i];
+        var child = children[i];
         grandchildren += displayDescendants(child, children);
         //I think that's right
-        descendants += children[i];
+        descendants[i] = children[i];
         descendants += grandchildren[i];
         //Seems pretty convoluted
       }
+    }
+
+    if (counter < 1)
+    {
+      displayDescendants(child, children);
     }
 
     //Need to add each of the people returned as children and grandchildren as descendants, so I can a
     if (counter > 0){
       return descendants;
     }
-  })
-};
+    counter++;
+}
 
 // function that prompts and validates user input
 function promptFor(question, callback){
