@@ -34,22 +34,13 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-<<<<<<< HEAD
-      // TODO: get person's info
-=======
       displayPerson(person);
-<<<<<<< HEAD
-      //Seems too easy?
-=======
-      //Seem too easy
->>>>>>> aff0d472dd4536435efef18a314f9bb073e2d4e1
->>>>>>> 840d83218bc6dff1f5448b1231014a09007cb157
       break;
     case "family":
       displayFamily(person);
       break;
     case "descendants":
-      // TODO: get person's descendants
+      displayDescendants(person);
       //Need to use recursion for this function
       break;
     case "restart":
@@ -72,7 +63,6 @@ function searchByName(people){
     }
   });
 
-  // TODO: What to do with filteredPeople?
   return filteredPeople;
 
 }
@@ -117,16 +107,12 @@ function displayPerson(person){
   // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
-<<<<<<< HEAD
   personInfo += "Gender: " + person.gender + "\n";
   personInfo += "Date of Birth: " + person.dob + "\n";
   personInfo += "Height: " + person.height + "\n";
   personInfo += "Weight: " + person.weight + "\n";
   personInfo += "Eye Color: " + person.eyecolor + "\n";
   personInfo += "Occupation: " + person.occupation + "\n";
-=======
-  // TODO: finish getting the rest of the information to display
->>>>>>> 840d83218bc6dff1f5448b1231014a09007cb157
   alert(personInfo);
 }
 
@@ -137,7 +123,7 @@ function displayFamily(person){
   var personsFamily = "Spouse: " + spouse + "\n";
   personsFamily += "Parents: " + parents + "\n";
 
-  return personsFamily;
+  alert(personsFamily);
 }
 
 function getSpouse(person){
@@ -161,6 +147,34 @@ function getParents(person){
   })
   return parents;
   //Is this in the right spot? Want to make sure it's going to return only after going through all
+}
+
+displayDescendants(person){ //Need to pass in people? If I want to call this recursively,
+  //I need to have it take an array and grab the right person or people?
+  //Or call functions recursively inside the function?
+  let descendants;
+
+    let children = people.filter(function(el) {
+      if (el.parents.some(x => x === person.id)) {
+        return el;
+    }
+    //This should be right now
+    //Need to add each of the children to the descendants
+
+
+
+    let grandchildren;
+    for (var i = 0; i < children.length; i++){
+      child = children[i];
+      grandchildren += displayDescendants(child)
+      
+    }
+
+    //Foreach, passing in each child to displayDescendants to get the grandchildren?
+
+    return children;
+  });
+  alert(descendants);
 }
 
 // function that prompts and validates user input
