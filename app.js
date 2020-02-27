@@ -113,8 +113,8 @@ function getParents(person){
     //map that returns all in array
     //var parentMultiple;
       if (person.parents.some(x => x === el.id)) {
-        return el;
-        //Need to possibly return multiple parents
+        return el.firstName + " " + el.lastName + ", ";
+        //Not sure if I want that comma there
     }
     //return parentMultiple;
   })
