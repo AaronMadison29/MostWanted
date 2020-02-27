@@ -72,7 +72,7 @@ function promptForCriterionChoice(people)
   var searchType = promptFor("Do you want to search based on one or many criterion? Enter 'one' or 'many'", oneMany).toLowerCase();
   switch(searchType){
     case 'one':
-      
+      displayPeople(searchByOneCriterion(people, promptForOneCriterion()));
       break;
     case 'many':
       
@@ -85,14 +85,18 @@ function promptForCriterionChoice(people)
 
 function promptForOneCriterion()
 {
-  return promptFor("Which criterion would you like to search by? You can enter: 'First Name', 'Last Name', 'Date of Birth', 'Height', 'Weight', 'Eye Color', or 'Occupation'", singleCriterion).toLowerCase();
+  return promptFor("Which criterion would you like to search by? You can enter: 'First Name', 'Last Name', 'Date of Birth', 'Height', 'Weight', 'Eye Color', or 'Occupation'", singleCriterion);
 }
 
-function peopleMatchingCriterion(people, criterion)
+
+function searchByOneCriterion(people, criterion)
 {
-  alert(people.map(function(person){
-    
-  }).join("\n"));
+  let matchingPeople = people.filter(function(){
+    if(el[criterion] === promptFor("What is the person's " + criterion, chars)) {
+      return el;
+    }
+  }).join("\n");
+  return matchingPeople;
 }
 
 // alerts a list of people
@@ -166,16 +170,16 @@ displayDescendants(person){ //Need to pass in people? If I want to call this rec
     let grandchildren;
     for (var i = 0; i < children.length; i++){
       child = children[i];
-      grandchildren += displayDescendants(child)
+      grandchildren += displayDescendants(child);
       
     }
 
     //Foreach, passing in each child to displayDescendants to get the grandchildren?
 
     return children;
-  });
+  })
   alert(descendants);
-}
+};
 
 // function that prompts and validates user input
 function promptFor(question, callback){
@@ -199,6 +203,25 @@ function singleCriterion(input){
     case "First Name":
       return "firstName";
     case "Last Name":
-      
+      return "lastName";
+    case "Date of Birth":
+      return "dob";
+    case "Height":
+      return "height";
+    case "Weight":
+      return "weight";
+    case "Eye Color":
+      return "eyeColor";
+    case "Occupation":
+      return "occupation";
+    default:
+      alert("Invalid input. Please try again!");
+      app(people); // restart app
+      break;
   }
+}
+
+function chars(input)
+{
+  return true
 }
