@@ -34,17 +34,13 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-      // TODO: get person's info
       displayPerson(person);
-      //Seems too easy?
-      //Seem too easy
       break;
     case "family":
       displayFamily(person);
       break;
     case "descendants":
-      // TODO: get person's descendants
-      //Need to use recursion for this function
+      alert(displayDescendants(person));
       break;
     case "restart":
       app(people); // restart
@@ -66,7 +62,6 @@ function searchByName(people){
     }
   });
 
-  // TODO: What to do with filteredPeople?
   return filteredPeople;
 
 }
@@ -157,9 +152,8 @@ function promptForManyCriteria()
 
 function searchByOneCriterion(people, criteria)
 {
-  var criterionValue = promptFor("What is the person's " + criteria, chars);
-  var matchingPeople = people.filter(function(el){
-    if(el[criterion] == criterionValue) {
+  let matchingPeople = people.filter(function(el){
+    if(el[criterion] === promptFor("What is the person's " + criterion, chars)) {
       return el;
     }
   });
@@ -198,7 +192,6 @@ function displayPerson(person){
   personInfo += "Weight: " + person.weight + "\n";
   personInfo += "Eye Color: " + person.eyecolor + "\n";
   personInfo += "Occupation: " + person.occupation + "\n";
-  // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
 
@@ -209,7 +202,7 @@ function displayFamily(person){
   var personsFamily = "Spouse: " + spouse + "\n";
   personsFamily += "Parents: " + parents + "\n";
 
-  return personsFamily;
+  alert(personsFamily);
 }
 
 function getSpouse(person){
@@ -234,6 +227,35 @@ function getParents(person){
   return parents;
   //Is this in the right spot? Want to make sure it's going to return only after going through all
 }
+
+function displayDescendants(person){
+  let descendants;
+  let grandchildren;
+  let counter = 0;
+
+    let children = people.filter(function(el) {
+      if (el.parents.some(x => x === person.id)) {
+        return el;
+    }
+
+    counter++;
+
+    if (counter > 0 && counter < 2){
+      for (var i = 0; i < children.length; i++){
+        let child = children[i];
+        grandchildren += displayDescendants(child);
+        descendants += children[i];
+        descendants += grandchildren[i];
+        //Seems pretty convoluted
+      }
+    }
+
+    //Need to add each of the people returned as children and grandchildren as descendants, so I can a
+    if (counter > 0){
+      return descendants;
+    }
+  })
+};
 
 // function that prompts and validates user input
 function promptFor(question, callback){
