@@ -230,13 +230,13 @@ function getParents(person, people){
   let parents = people.filter(function(el) {
     //map that returns all in array
     //var parentMultiple;
-      if (parentsOf.some(x => x === el.id)) {
+      if (person.parents.some(x => x === el.id)) {
         return el.firstName + " " + el.lastName + ", ";
         //Not sure if I want that comma there
     }
     //return parentMultiple;
   })
-  return parentsOfPerson;
+  return parents;
   //Is this in the right spot? Want to make sure it's going to return only after going through all
 }
 
