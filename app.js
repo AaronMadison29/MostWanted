@@ -60,9 +60,9 @@ function searchByName(people){
     if(el.firstName == firstName && el.lastName == lastName) {
       return el;
     }
-  });
+  })[0];
 
-  return filteredPeople[0];
+  return filteredPeople;
 
 }
 
@@ -222,8 +222,8 @@ function getSpouse(person, people){
       return el;
       //I think that's right now
     }
-  });
-  return spouse[0];
+  })[0];
+  return spouse;
 }
 
 function getParents(person, people){
