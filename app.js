@@ -31,7 +31,10 @@ function mainMenu(person, people){
     return app(people); // restart
   }
 
+  printRecentsToHtml(putIntoArray(person));
+
   var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  
 
   switch(displayOption){
     case "info":
@@ -63,6 +66,25 @@ function homeScreenClick(id, people){
     }
   })[0]
   return mainMenu(person, people);
+}
+
+function putIntoArray(person){
+  let counter = 0;
+  var recentPeople = [];
+  recentPeople.unshift(person);
+  if (counter > 2){
+    recentPeople.pop(recentPeople.length - 1);
+  }
+  counter++;
+  //should be a way to stop counting when it hits 3?
+  return recentPeople;
+}
+
+function printRecentsToHtml(recentPeople){
+  for (let i = 0; i < recentPeople.length; i++){
+    document.getElementById((i + 1) + "Recent").onclick(recentPeople[i].id);
+    document.getElementById((i+1)).style.display = "inline";
+  }
 }
 
 function searchByName(people){
