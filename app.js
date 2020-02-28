@@ -31,8 +31,6 @@ function mainMenu(person, people){
     return app(people); // restart
   }
 
-  printRecentsToHtml(putIntoArray(person));
-
   var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
   
 
@@ -57,6 +55,7 @@ function mainMenu(person, people){
     default:
       return mainMenu(person, people); // ask again
   }
+  printRecentsToHtml(putIntoArray(person));
 }
 
 function homeScreenClick(id, people){
@@ -68,11 +67,18 @@ function homeScreenClick(id, people){
   return mainMenu(person, people);
 }
 
-function putIntoArray(person){
-  let counter = 0;
+  var counter = 0;
   var recentPeople = [];
-  recentPeople.unshift(person);
-  if (counter > 2){
+
+function putIntoArray(person){
+  //Have to have this declared and defined somewhere else. It's overwriting the old one with this blank array
+  if (!recentPeople.some(p => p.id == person.id)){
+    recentPeople.unshift(person);
+  }
+  else{
+    return recentPeople;
+  }
+  if (counter > 3){
     recentPeople.pop(recentPeople.length - 1);
   }
   counter++;
@@ -82,7 +88,7 @@ function putIntoArray(person){
 
 function printRecentsToHtml(recentPeople){
   for (let i = 0; i < recentPeople.length; i++){
-    document.getElementById((i + 1) + "Recent").onclick(recentPeople[i].id);
+    document.getElementById((i + 1) + "Recent").setAttribute("onclick", "homeScreenClick(" + ("" + recentPeople[i].id) + ", data)");
     document.getElementById("Name" + (i + 1)).innerHTML = recentPeople[(i)].firstName + " " + recentPeople[(i)].lastName;
     document.getElementById((i+1)).style.display = "inline";
   }
