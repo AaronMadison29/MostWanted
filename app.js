@@ -37,10 +37,10 @@ function mainMenu(person, people){
       displayPerson(person);
       break;
     case "family":
-      displayFamily(getSpouse(person, people), getParents(person, people)[0], getParents(person, people)[1]);
+      displayFamily(getSpouse(person, people), getParents(person, people)[0], getParents(person, people)[1], getChildren(person, people));
       break;
     case "descendants":
-      displayPeople(displayDescendants(person, people));
+      displayPeople(getDescendants(person, people));
       break;
     case "restart":
       app(people); // restart
@@ -199,8 +199,8 @@ function displayPerson(person){
   alert(personInfo);
 }
 
-function displayFamily(spouse=null, parent1=null, parent2=null){
-  var outputString;
+function displayFamily(spouse=null, parent1=null, parent2=null, children=null){
+  var outputString = "";
   if(spouse != null)
   {
     outputString = "Spouse: " + spouse.firstName + " " + spouse.lastName + "\n";
@@ -211,7 +211,14 @@ function displayFamily(spouse=null, parent1=null, parent2=null){
   }
   if(parent2 != null)
   {
-    outputString += "Parent 2: " + parent2.firstName + " " + parent2.lastName;
+    outputString += "Parent 2: " + parent2.firstName + " " + parent2.lastName + "\n";
+  }
+  if(children != null)
+  {
+    for(child in children)
+    {
+      outputString += "Child " + (parseInt(child) + 1) + ": " + children[child].firstName + " " + children[child].lastName + "\n";
+    }
   }
   alert(outputString);
 }
@@ -240,20 +247,24 @@ function getParents(person, people){
   //Is this in the right spot? Want to make sure it's going to return only after going through all
 }
 
-function displayDescendants(person, people){
-  let descendants = [];
-
-  let children = people.filter(function (el) {
+function getChildren(person, people){
+  return people.filter(function (el) {
     if (el.parents.some(x => x === person.id)) {
       return el;
     }});
+}
+
+function getDescendants(person, people){
+  let descendants = [];
+
+  let children = getChildren(person, people);
 
 
-    descendants = descendants.concat(children);
+  descendants = descendants.concat(children);
 
 
   for (person in children) {
-    descendants = descendants.concat(displayDescendants(children[person], people));
+    descendants = descendants.concat(getDescendants(children[person], people));
   }
   return descendants;
 }
