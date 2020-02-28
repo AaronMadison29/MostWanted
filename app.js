@@ -83,6 +83,7 @@ function putIntoArray(person){
 function printRecentsToHtml(recentPeople){
   for (let i = 0; i < recentPeople.length; i++){
     document.getElementById((i + 1) + "Recent").onclick(recentPeople[i].id);
+    document.getElementById("Name" + (i + 1)).innerHTML = recentPeople[(i)].firstName + " " + recentPeople[(i)].lastName;
     document.getElementById((i+1)).style.display = "inline";
   }
 }
