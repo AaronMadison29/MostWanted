@@ -39,7 +39,7 @@ function mainMenu(person, people){
       mainMenu(person, people);
       break;
     case "family":
-      displayFamily(getSpouse(person, people), getParents(person, people)[0], getParents(person, people)[1], getChildren(person, people));
+      displayFamily(getSpouse(person, people), getParents(person, people)[0], getParents(person, people)[1], getChildren(person, people), getSiblings(person, people));
       mainMenu(person, people);
       break;
     case "descendants":
@@ -203,7 +203,7 @@ function displayPerson(person){
   alert(personInfo);
 }
 
-function displayFamily(spouse=null, parent1=null, parent2=null, children=null){
+function displayFamily(spouse=null, parent1=null, parent2=null, children=null, siblings=null){
   var outputString = "";
   if(spouse != null)
   {
@@ -222,6 +222,13 @@ function displayFamily(spouse=null, parent1=null, parent2=null, children=null){
     for(child in children)
     {
       outputString += "Child " + (parseInt(child) + 1) + ": " + children[child].firstName + " " + children[child].lastName + "\n";
+    }
+  }
+  if(siblings != null)
+  {
+    for(sibling in siblings)
+    {
+      outputString += "Sibling " + (parseInt(sibling) + 1) + ": " + siblings[sibling].firstName + " " + siblings[sibling].lastName + "\n";
     }
   }
   alert(outputString);
@@ -276,6 +283,18 @@ function getChildren(person, people){
     if (el.parents.some(x => x === person.id)) {
       return el;
     }});
+}
+
+function getSiblings(person, people){
+  return people.filter(function(el){
+    if(el.parents.some(x => x === person.parents[0] || x === person.parents[1]))
+    {
+      if(el["id"] != person["id"])
+      {
+        return el;
+      }
+    }
+  })
 }
 
 function getDescendants(person, people){
