@@ -3,6 +3,7 @@
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   border-radius: 5px;
+  margin-left: 35px;
 }
 
 /* On mouse-over, add a deeper shadow */
@@ -18,3 +19,15 @@
 img {
     border-radius: 5px 5px 0 0;
   }
+
+.column {
+    float: left;
+    width: 50%;
+}
+  
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
