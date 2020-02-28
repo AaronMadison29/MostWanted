@@ -12,6 +12,7 @@ function app(people){
       break;
     case 'no':
       promptForCriterionChoice(people);
+      app(people)
       break;
     default:
       alert("Invalid input. Please try again!");
@@ -35,12 +36,15 @@ function mainMenu(person, people){
   switch(displayOption){
     case "info":
       displayPerson(person);
+      mainMenu(person, people);
       break;
     case "family":
       displayFamily(getSpouse(person, people), getParents(person, people)[0], getParents(person, people)[1], getChildren(person, people));
+      mainMenu(person, people);
       break;
     case "descendants":
       displayPeople(getDescendants(person, people));
+      mainMenu(person, people);
       break;
     case "restart":
       app(people); // restart
@@ -159,7 +163,7 @@ function promptForManyCriteria()
 
 function searchByOneCriterion(people, criterion)
 {
-  let criterionChoice = promptFor("What is the person's " + criterion, chars);
+  let criterionChoice = promptFor("What is the person's " + displayVariableName(criterion) + "?", chars);
   let matchingPeople = people.filter(function(el){
     if(el[criterion] == criterionChoice) {
       return el;
@@ -221,6 +225,26 @@ function displayFamily(spouse=null, parent1=null, parent2=null, children=null){
     }
   }
   alert(outputString);
+}
+
+function displayVariableName(variable)
+{
+  switch(variable)
+  {
+    case "firstName":
+      variable =  "first name";
+      break;
+    case "lastName":
+      variable =  "last name";
+      break;
+    case "dob":
+      variable =  "date of birth";
+      break;
+    case "eyeColor":
+      variable =  "eye color";
+      break;
+  }
+  return variable;
 }
 
 function getSpouse(person, people){
