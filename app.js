@@ -52,6 +52,15 @@ function mainMenu(person, people){
   }
 }
 
+function homeScreenClick(id, people){
+  let person = people.filter(function(el){
+    if (el["id"] === id){
+    return el;
+    }
+  })[0]
+  return mainMenu(person, people);
+}
+
 function searchByName(people){
   var firstName = promptFor("What is the person's first name?", chars);
   var lastName = promptFor("What is the person's last name?", chars);
